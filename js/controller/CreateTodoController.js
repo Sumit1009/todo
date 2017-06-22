@@ -1,5 +1,7 @@
-app.controller('CreateTodo',["$scope",function ($scope) {
+app.controller('CreateTodo',["$scope","todoService",function ($scope) {
     $scope.todo = {};
-    console.log($scope.todo.title);
-    console.log($scope.todo.date);
+    $scope.todos=[]
+    $scope.submit = function () {
+        $scope.todos.push(todo)
+    }
 }]);

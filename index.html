@@ -13,12 +13,12 @@
     <div class="jumbotron">
         <h1>TODO App</h1>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" ng-controller="CreateTodo" ng-submit="submit()">
         <form class="form-horizontal">
             <div class="col-xs-offset-4 col-md-6 heading">
                      Create a TODO
             </div>
-            <div class="form-group" ng-controller="CreateTodo">
+            <div class="form-group">
                 <label for="todo" class="control-label col-xs-4">TODO:</label>
                 <div class="col-xs-6 col-xs-offset-1">
                     <input type="text" class="form-control" ng-model="todo.title" id="todo" placeholder="TODO" required>
