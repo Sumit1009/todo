@@ -1,6 +1,4 @@
-/**
- * Created by sumit on 22/6/17.
- */
+
 var express = require('express');
 app = express();
 
