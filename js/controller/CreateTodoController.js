@@ -21,4 +21,9 @@ app.controller('CreateTodo',["$scope",function ($scope) {
         var index = $scope.todos.indexOf(todo);
         $scope.todos.splice(index, 1);
     };
+
+    $scope.edit = function (todo, editTodo) {
+        todo.name = editTodo.name;
+        todo.date = editTodo.date;
+    };
 }]);
