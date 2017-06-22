@@ -1,7 +1,14 @@
-app.controller('CreateTodo',["$scope","todoService",function ($scope) {
+app.controller('CreateTodo',["$scope","TodoService",function ($scope,TodoService) {
     $scope.todo = {};
-    $scope.todos=[]
+    // $scope.todos=[];
     $scope.submit = function () {
-        $scope.todos.push(todo)
-    }
+        var newTodo = {}
+        console.log($scope.todo);
+        angular.copy($scope.todo, newTodo)
+        TodoService.add(newTodo)
+        console.log($scope.todos)
+    };
+
+    $scope.todos=TodoService.getTodos();
+
 }]);
