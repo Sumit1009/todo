@@ -7,6 +7,7 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="container" ng-controller="CreateTodo">
@@ -16,7 +17,7 @@
     <div class="col-md-6"  ng-submit="submit()" >
         <form class="form-horizontal" name="todoForm">
             <div class="col-xs-offset-4 col-md-6 heading">
-                     Create a TODO
+                Create a TODO
             </div>
             <div class="form-group" ng-class="{ 'has-error' : todoForm.todo.$invalid && !todoForm.todo.$pristine }">
                 <label for="todo" class="control-label col-xs-4">TODO:</label>
@@ -41,15 +42,36 @@
             </div>
         </form>
     </div>
-    <div class="col-md-6">
-        <div ng-repeat="todo in todos track by $index">
-              {{todo.title}}  {{todo.date | date}}
+
+    <div class="col-xs-5">
+        <div ng-repeat="todo in todos">
+            <div class="well" ng-hide="todo.editMode">
+                <div class="row">
+                    <span class="pull-left">{{todo.date}}</span>
+                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square-o pull-right" aria-hidden="true"> </a>
+                    <a ng-click="remove(todo)" class="fa fa-trash-o pull-right" aria-hidden="true"></a>
+                </div>
+                <div class="row">
+                    {{ todo.title }}
+                </div>
+            </div>
+            <div class="well" ng-show="todo.editMode">
+                <form ng-submit="editing = false">
+                    <input type="text" ng-model="todo.date" value="{{todo.date}}" placeholder="{{Date}}" class="form-control" ng-required>
+                    <input type="text" ng-model="todo.task" value="{{todo.title}}" placeholder="{{Title}}" class="form-control" ng-required>
+                    <button class="btn" type="submit">Save</button>
+                </form>
+            </div>
+
+            <!--<todo-info info="todo"></todo-info>-->
         </div>
     </div>
+
 </div>
-    <script src="js/app.js"></script>
+
+<script src="js/app.js"></script>
 <script src="js/service/TodoService.js"></script>
 <script src="js/controller/CreateTodoController.js"></script>
-<script src="js/controller/ShowTodo.js"></script>
+<!--<script src="js/controller/ShowTodo.js"></script>-->
 </body>
 </html>
