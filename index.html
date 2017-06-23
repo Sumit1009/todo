@@ -52,16 +52,9 @@
             </div>
 
             <div class="panel-body">
-                <div ng-repeat="todo in todos track by $index"
-                     class="draggable-objects"
-                     ng-drop="true"
+                <div ng-repeat="todo in todos track by $index" class="draggable-objects" ng-drop="true"
                      ng-drop-success="onDropComplete($index,$data,$event)">
-                    <div class="well"
-                         ng-drag="true"
-                         ng-drag-data="todo"
-                         data-allow-transform="true"
-                         class="item"
-                         ng-drag-success="onDropComplete($index,$data,$event)">
+                    <div class="well" ng-drag="true" ng-drag-data="todo" data-allow-transform="true" class="item">
                         <div ng-hide="todo.editMode">
                             <div class="row">
                                 <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
@@ -76,7 +69,6 @@
                         </div>
                         <div class="well" ng-show="todo.editMode">
                             <form ng-submit="todo.editMode = false" name="editTodo">
-
                                 <div class="form-group"
                                      ng-class="{ 'has-error' : editTodo.todo.$invalid && !editTodo.todo.$pristine }">
                                     <input type="datetime-local" name="date" ng-model="todo.date" value="{{todo.date}}"
@@ -84,7 +76,6 @@
                                     <p ng-show="editTodo.todo.$error.minlength" class="help-block">Todo name is too
                                         short.</p>
                                 </div>
-
                                 <div class="form-group"
                                      ng-class="{ 'has-error' : editTodo.date.$invalid && !editTodo.date.$pristine }">
                                     <input type="text" name="date" ng-model="todo.title" value="{{todo.title}}"
@@ -92,7 +83,6 @@
                                     <p ng-show="editTodo.date.$error.min" class="help-block">You cannot add a todo in
                                         this date</p>
                                 </div>
-
                                 <button class="btn" type="submit">Save</button>
                             </form>
                         </div>
@@ -100,13 +90,14 @@
                         <!--<todo-info info="todo"></todo-info>-->
                     </div>
                 </div>
-
             </div>
-
-            <script src="js/app.js"></script>
-            <script src="js/service/TodoService.js"></script>
-            <script src="js/controller/CreateTodoController.js"></script>
-            <script src="bower_components/ngDraggable/ngDraggable.js"></script>
-            <!--<script src="js/controller/ShowTodo.js"></script>-->
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/service/TodoService.js"></script>
+    <script src="js/controller/CreateTodoController.js"></script>
+    <script src="bower_components/ngDraggable/ngDraggable.js"></script>
+    <!--<script src="js/controller/ShowTodo.js"></script>-->
+</div>
 </body>
 </html>
