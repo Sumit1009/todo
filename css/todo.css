@@ -1,7 +1,25 @@
-.heading {
-    font-size: 25px;
-    color: #337ab7;
+a{
+    color: #0f0f0f;
+    text-decoration: none !important;
 }
+
+.custom-body {
+    background-color: #bce8f1;
+}
+
+.panel > .panel-heading {
+    background-color: rgb(51, 122, 183) !important;
+    color: white !important;
+    background-image: none;
+}
+
+.custom-header{
+    background-color: rgb(51, 122, 183) !important;
+    color: white !important;
+    background-image: none;
+    height: 150px;
+}
+
 .title {
     font-size: 22px;
     color: #ac2925;

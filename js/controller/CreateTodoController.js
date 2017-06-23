@@ -1,19 +1,17 @@
-app.controller('CreateTodo', ["$scope", "TodoService", function ($scope, TodoService) {
+app.controller('CreateTodo',["$scope","TodoService",function ($scope,TodoService) {
     $scope.todo = {};
-    $scope.submit = function (isValid) {
+    $scope.submit = function () {
 
-        var newTodo = {};
-        console.log($scope.todo);
-        angular.copy($scope.todo, newTodo);
-        TodoService.add(newTodo);
-        console.log($scope.todos);
+            var newTodo = {};
+            angular.copy($scope.todo, newTodo);
+            TodoService.add(newTodo);
     };
 
-    $scope.todos = TodoService.getTodos();
+    $scope.todos=TodoService.getTodos();
 
-    $scope.minDate = new Date();
+    $scope.minDate=new Date();
 
-    $scope.remove = function (todo) {
+    $scope.remove = function(todo) {
         var index = $scope.todos.indexOf(todo);
         $scope.todos.splice(index, 1);
     };
