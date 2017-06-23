@@ -17,6 +17,7 @@
   "dependencies": {
     "angular": "^1.6.4",
     "bootstrap": "^3.3.7",
-    "ngDraggable": "^0.1.11"
+    "ngDraggable": "^0.1.11",
+    "angular-drag-and-drop-lists": "^2.1.0"
   }
 }
