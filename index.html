@@ -11,104 +11,106 @@
 </head>
 <body>
 <div class="container" ng-controller="CreateTodo">
-    <div class="jumbotron">
+    <div class="jumbotron custom-header">
         <h1>TODO App</h1>
     </div>
     <div class="col-md-6" ng-submit="submit()">
         <div class="panel panel-default">
             <div class="panel-heading custom-heading">
-                <span class="panel-title">Create a TODO</span>
+                <span class="panel-title">Create a Todo</span>
             </div>
 
             <div class="panel-body custom-body">
-        <form class="form-horizontal" name="todoForm">
-            <div class="form-group" ng-class="{ 'has-error' : todoForm.todo.$invalid && !todoForm.todo.$pristine }">
-                <label for="todo" class="control-label col-xs-4">TODO:</label>
-                <div class="col-xs-6 col-xs-offset-1">
-                    <input type="text" class="form-control" name="todo" ng-model="todo.title" id="todo"
-                           placeholder="What Need To Be Done?" ng-minlength="4" ng-required ="true">
-                    <p ng-show="todoForm.todo.$invalid && !todoForm.todo.$pristine" class="help-block">
-                        Todo name is required.
-                    </p>
-                    <p ng-show="todoForm.todo.$error.minlength" class="help-block">Todo name is too short.</p>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error' : todoForm.date.$invalid && !todoForm.date.$pristine }">
-                <label for="date" class="control-label col-xs-4">DATE:</label>
-                <div class="col-xs-6 col-xs-offset-1">
-                    <input type="datetime-local" class="form-control" name="date" ng-model="todo.date" id="date"
-                           placeholder="date" min="{{minDate}}" ng-required="true">
-                    <p ng-show="todoForm.date.$error.min" class="help-block">You cannot add a todo in this date</p>
+                <form class="form-horizontal" name="todoForm">
+                    <div class="form-group"
+                         ng-class="{ 'has-error' : todoForm.todo.$invalid && !todoForm.todo.$pristine }">
+                        <label for="todo" class="control-label col-xs-3">TODO:</label>
+                        <div class="col-xs-6 col-xs-offset-1">
+                            <input type="text" class="form-control" name="todo" ng-model="todo.title" id="todo"
+                                   placeholder="What Need To Be Done?" ng-minlength="3" ng-required="true">
+                            <p ng-show="todoForm.todo.$error.minlength" class="help-block">Todo length is too short.</p>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         ng-class="{ 'has-error' : todoForm.date.$invalid && !todoForm.date.$pristine }">
+                        <label for="date" class="control-label col-xs-3">DATE:</label>
+                        <div class="col-xs-6 col-xs-offset-1">
+                            <input type="datetime-local" class="form-control" name="date" ng-model="todo.date" id="date"
+                                   placeholder="date" min="{{minDate}}" ng-required="true">
+                            <p ng-show="todoForm.date.$error.min" class="help-block">You cannot add a todo in this date</p>
 
-                </div>
-            </div>
-            <div class="col-xs-offset-4 col-md-6">
-                <button class="btn btn-default" type="submit" ng-disabled="userForm.$invalid">Create</button>
-            </div>
-        </form>
+                        </div>
+                    </div>
+                    <div class="col-xs-offset-4 col-md-6">
+                        <button class="btn btn-block btn-success" type="submit" ng-disabled="todoForm.$invalid">Create</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading custom-heading">
+            <div class="panel-heading">
                 <span class="panel-title">My Todos</span>
             </div>
 
             <div class="panel-body custom-body">
-        <div ng-repeat="todo in todos">
-            <div class="well">
-            <div ng-hide="todo.editMode">
-                <div class="row">
-                    <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
-                    <a ng-click="remove(todo)" class="fa fa-times pull-right fa-lg"  aria-hidden="true" title="Delete"></a>
+                <div ng-repeat="todo in todos track by $index" class="draggable-objects" ng-drop="true"
+                     ng-drop-success="onDropComplete($index,$data,$event)">
+                    <div class="well" ng-drag="true" ng-drag-data="todo" data-allow-transform="true" class="item">
+                            <div ng-hide="todo.editMode">
+                                <div class="row">
+                                    <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
+                                    <a ng-click="remove(todo)" class="fa fa-times pull-right fa-lg" aria-hidden="true"
+                                       title="Delete"></a>
+                                </div>
+                                <div class="row">
+                                    {{ todo.title }}
+                                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square fa-lg pull-right"
+                                       aria-hidden="true" title="Edit"> </a>
+                                    <div ng-hide="todo.read">
+                                        <a ng-click="todo.read=true"><span class="fa fa-square-o"></span> Mark As Read
+                                        </a>
+                                    </div>
+                                    <div ng-show="todo.read">
+                                        <a ng-click="todo.read=false" ng-show="todo.read"><span
+                                                class="fa fa-check-square"></span> Mark As UnRead </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well" ng-show="todo.editMode">
+                                <form ng-submit="todo.editMode = false" name="editTodo">
+
+                                    <div class="form-group"
+                                         ng-class="{ 'has-error' : editTodo.todo.$invalid && !editTodo.todo.$pristine }">
+                                        <input type="datetime-local" name="date" ng-model="todo.date"
+                                               value="{{todo.date}}" placeholder="date" min="{{minDate}}"
+                                               class="form-control" ng-required="true">
+                                        <p ng-show="editTodo.todo.$error.minlength" class="help-block">Todo name is too
+                                            short.</p>
+                                    </div>
+
+                                    <div class="form-group"
+                                         ng-class="{ 'has-error' : editTodo.date.$invalid && !editTodo.date.$pristine }">
+                                        <input type="text" name="date" ng-model="todo.title" value="{{todo.title}}"
+                                               placeholder="{{Title}}" class="form-control" ng-required="true">
+                                        <p ng-show="editTodo.date.$error.min" class="help-block">You cannot add a todo
+                                            in this date</p>
+                                    </div>
+                                    <button class="btn" type="submit">Save</button>
+                                </form>
+                            </div>
+                    </div>
                 </div>
-                <div class="row">
-                    {{ todo.title }}
-                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square fa-lg pull-right" aria-hidden="true" title="Edit"> </a>
-                    <div ng-hide="todo.read">
-                        <a ng-click="todo.read=true"><span class="fa fa-square-o"></span> Mark As Read </a>
-                    </div>
-                    <div ng-show="todo.read">
-                        <a ng-click="todo.read=false" ng-show="todo.read"><span class="fa fa-check-square"></span> Mark As UnRead </a>
-                    </div>
-                </div>
-            </div>
-            <div class="well" ng-show="todo.editMode">
-                <form ng-submit="todo.editMode = false" name="editTodo">
-
-                    <div class="form-group" ng-class="{ 'has-error' : editTodo.todo.$invalid && !editTodo.todo.$pristine }">
-                        <input type="datetime-local" name="date" ng-model="todo.date" value="{{todo.date}}" placeholder="date" min="{{minDate}}" class="form-control" ng-required="true">
-                        <p ng-show="editTodo.todo.$error.minlength" class="help-block">Todo name is too short.</p>
-                    </div>
-
-                    <div class="form-group" ng-class="{ 'has-error' : editTodo.date.$invalid && !editTodo.date.$pristine }">
-                        <input type="text" name="date" ng-model="todo.title" value="{{todo.title}}" placeholder="{{Title}}" class="form-control" ng-required="true">
-                        <p ng-show="editTodo.date.$error.min" class="help-block">You cannot add a todo in this date</p>
-                    </div>
-
-                    <button class="btn" type="submit">Save</button>
-                </form>
-            </div>
-
-            <!--<todo-info info="todo"></todo-info>-->
             </div>
         </div>
-            </div>
-        </div>
+        <script src="js/app.js"></script>
+        <script src="js/service/TodoService.js"></script>
+        <script src="js/controller/CreateTodoController.js"></script>
+        <script src="bower_components/ngDraggable/ngDraggable.js"></script>
+        <!--<script src="js/controller/ShowTodo.js"></script>-->
     </div>
 </div>
-<script>
-    jQuery(document).ready(function () {
-        
-    });
-
-</script>
-
-<script src="js/app.js"></script>
-<script src="js/service/TodoService.js"></script>
-<script src="js/controller/CreateTodoController.js"></script>
-<!--<script src="js/controller/ShowTodo.js"></script>-->
 </body>
 </html>

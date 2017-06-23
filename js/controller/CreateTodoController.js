@@ -17,8 +17,16 @@ app.controller('CreateTodo',["$scope","TodoService",function ($scope,TodoService
     };
 
     $scope.edit = function (todo, editTodo) {
-        todo.name = editTodo.name;
+        todo.title = editTodo.title;
         todo.date = editTodo.date;
     };
+
+    $scope.onDropComplete = function (index, obj, evt) {
+        var otherObj = TodoService.getById(index);
+        var otherIndex = TodoService.getTodos().indexOf(obj);
+        TodoService.getTodos()[index] = obj;
+        TodoService.getTodos()[otherIndex] = otherObj;
+    }
+
 
 }]);
