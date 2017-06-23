@@ -16,11 +16,11 @@
     </div>
     <div class="col-md-6" ng-submit="submit()">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading custom-heading">
                 <span class="panel-title">Create a TODO</span>
             </div>
 
-            <div class="panel-body">
+            <div class="panel-body custom-body">
         <form class="form-horizontal" name="todoForm">
             <div class="form-group" ng-class="{ 'has-error' : todoForm.todo.$invalid && !todoForm.todo.$pristine }">
                 <label for="todo" class="control-label col-xs-4">TODO:</label>
@@ -52,22 +52,27 @@
 
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading custom-heading">
                 <span class="panel-title">My Todos</span>
             </div>
 
-            <div class="panel-body">
+            <div class="panel-body custom-body">
         <div ng-repeat="todo in todos">
             <div class="well">
             <div ng-hide="todo.editMode">
                 <div class="row">
                     <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
-                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square-o pull-right" aria-hidden="true"> </a>
-                    <a ng-click="remove(todo)" class="fa fa-trash-o pull-right" aria-hidden="true"></a>
+                    <a ng-click="remove(todo)" class="fa fa-times pull-right fa-lg"  aria-hidden="true" title="Delete"></a>
                 </div>
                 <div class="row">
                     {{ todo.title }}
-                    <span class="fa fa-check-square complete"></span>
+                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square fa-lg pull-right" aria-hidden="true" title="Edit"> </a>
+                    <div ng-hide="todo.read">
+                        <a ng-click="todo.read=true"><span class="fa fa-square-o"></span> Mark As Read </a>
+                    </div>
+                    <div ng-show="todo.read">
+                        <a ng-click="todo.read=false" ng-show="todo.read"><span class="fa fa-check-square"></span> Mark As UnRead </a>
+                    </div>
                 </div>
             </div>
             <div class="well" ng-show="todo.editMode">
