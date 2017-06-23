@@ -38,32 +38,48 @@
                 </div>
             </div>
             <div class="col-xs-offset-4 col-md-6">
-                <button class="btn btn-default" type="submit" ng-disabled="todoForm.$invalid">Create</button>
+                <button class="btn btn-default" type="submit" ng-disabled="userForm.$invalid">Create</button>
             </div>
         </form>
     </div>
 
-    <div class="col-xs-6" ng-drop="true">
-        <div ng-repeat="todo in todos" class="draggable-objects">
-            <div class="well" ng-hide="todo.editMode"  ng-drag="true" ng-drag-data="todo" data-allow-transform="true" class="item" draggable="true">
+    <div class="col-xs-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="panel-title">My Todos</span>
+            </div>
+
+            <div class="panel-body">
+        <div ng-repeat="todo in todos">
+            <div class="well">
+            <div ng-hide="todo.editMode">
                 <div class="row">
-                    <span class="date">
-                        {{todo.date | date}}
-                    </span>
-                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square-o pull-right btn btn-primary" aria-hidden="true"> </a>
-                    <a ng-click="remove(todo)" class="fa fa-trash-o pull-right btn btn-danger" aria-hidden="true"></a>
-                    <div class="title">
-                        {{todo.title}}
-                    </div>
+                    <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
+                    <a ng-click="todo.editMode=true" class="fa fa-pencil-square-o pull-right" aria-hidden="true"> </a>
+                    <a ng-click="remove(todo)" class="fa fa-trash-o pull-right" aria-hidden="true"></a>
+                </div>
+                <div class="row">
+                    {{ todo.title }}
+                    <span class="fa fa-check-square complete"></span>
                 </div>
             </div>
             <div class="well" ng-show="todo.editMode">
-                <form ng-submit="editing = false">
-                    <input type="date" ng-model="editTodo.date" value="{{todo.date}}" placeholder="{{Date}}" class="form-control" ng-required>
-                    <input type="text" ng-model="editTodo.title" value="{{todo.title}}" placeholder="{{Title}}" class="form-control" ng-required>
-                    <button class="btn" type="submit" ng-click="edit()">Save</button>
+                <form ng-submit="todo.editMode = false" name="editTodo">
+
+                    <div class="form-group" ng-class="{ 'has-error' : editTodo.todo.$invalid && !editTodo.todo.$pristine }">
+                        <input type="datetime-local" name="date" ng-model="todo.date" value="{{todo.date}}" placeholder="date" min="{{minDate}}" class="form-control" ng-required="true">
+                        <p ng-show="editTodo.todo.$error.minlength" class="help-block">Todo name is too short.</p>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : editTodo.date.$invalid && !editTodo.date.$pristine }">
+                        <input type="text" name="date" ng-model="todo.title" value="{{todo.title}}" placeholder="{{Title}}" class="form-control" ng-required="true">
+                        <p ng-show="editTodo.date.$error.min" class="help-block">You cannot add a todo in this date</p>
+                    </div>
+
+                    <button class="btn" type="submit">Save</button>
                 </form>
             </div>
+
             <!--<todo-info info="todo"></todo-info>-->
         </div>
     </div>
