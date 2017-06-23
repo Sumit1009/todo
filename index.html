@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="css/todo.css">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script
-    src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-    crossorigin="anonymous"></script>
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -53,75 +53,116 @@
                 </form>
             </div>
         </div>
-    </div>
 
-    <div class="col-xs-6">
+
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="panel-title">My Todos</span>
+            <div class="panel-heading custom-heading">
+                <span class="panel-title">Completed Todos</span>
             </div>
 
-            <div class="panel-body custom-body" ui-sortable ng-model="todos">
+            <div class="panel-body custom-body">
                 <div ng-repeat="todo in todos track by $index">
-                    <div class="well">
-                        <div ng-hide="todo.editMode">
-                            <div class="row">
-                                <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
-                                <a ng-click="remove(todo)" class="fa fa-times pull-right fa-lg" aria-hidden="true"
-                                   title="Delete"></a>
-                            </div>
-                            <div class="row">
-                                {{ todo.title }}
-                                <a ng-click="todo.editMode=true" class="fa fa-pencil-square fa-lg pull-right"
-                                   aria-hidden="true" title="Edit"> </a>
-                                <div ng-hide="todo.read">
-                                    <a ng-click="todo.read=true"><span class="fa fa-square-o"></span> Mark As Read</a>
+
+                    <div ng-if="todo.read">
+
+                        <div class="well">
+                            <div ng-hide="todo.editMode">
+                                <div class="row">
+                                    <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
+                                    <a ng-click="remove(todo)" class="fa fa-times pull-right fa-lg" aria-hidden="true"
+                                       title="Delete"></a>
                                 </div>
-                                <div ng-show="todo.read">
-                                    <a ng-click="todo.read=false" ng-show="todo.read"><span
-                                            class="fa fa-check-square"></span> Mark As UnRead </a>
+                                <div class="row">
+                                    <span ng-hide="todo.read">
+                                            <a ng-click="todo.read=true" title="UnRead"><span class="fa fa-square-o"></span></a>
+                                        </span>
+                                    <span ng-show="todo.read">
+                                            <a ng-click="todo.read=false" title="Read"><span class="fa fa-check-square"></span></a>
+                                        </span>
+                                    {{ todo.title }}
+                                    <!--<a ng-click="todo.editMode=true" class="fa fa-pencil-square fa-lg pull-right"-->
+                                       <!--aria-hidden="true" title="Edit"> </a>-->
                                 </div>
                             </div>
                         </div>
-                        <div ng-show="todo.editMode">
-                            <form ng-submit="todo.editMode = false" name="editTodo" class="editForm form-group">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">My Todos</span>
+                </div>
 
-                                <input type="datetime-local" ng-model="todo.date"
-                                       value="{{todo.date}}" placeholder="date" min="{{minDate}}"
-                                       class="form-control form-group" ng-required="true">
+                <div class="panel-body custom-body" ui-sortable ng-model="todos">
+                    <div ng-repeat="todo in todos track by $index">
+                        <div ng-if="!todo.read">
+                            <div class="well">
+                                <div ng-hide="todo.editMode">
+                                    <div class="row">
+                                        <span class="pull-left">{{todo.date | date:'dd MMM yyyy, h:mm a'}}</span>
+                                        <a ng-click="remove(todo)" class="fa fa-times pull-right fa-lg"
+                                           aria-hidden="true"
+                                           title="Delete"></a>
+                                    </div>
+                                    <div class="row">
+                                        <span ng-hide="todo.read">
+                                            <a ng-click="todo.read=true" title="UnRead"><span class="fa fa-square-o"></span></a>
+                                        </span>
+                                        <span ng-show="todo.read">
+                                            <a ng-click="todo.read=false" title="Read"><span class="fa fa-check-square"></span></a>
+                                        </span>
+                                        {{ todo.title }}
+
+                                        <a ng-click="todo.editMode=true" class="fa fa-pencil-square fa-lg pull-right"
+                                           aria-hidden="true" title="Edit"> </a>
+                                    </div>
+                                </div>
+
+                                <div ng-show="todo.editMode">
+                                    <form ng-submit="todo.editMode = false" name="editTodo" class="editForm form-group">
+
+                                        <input type="datetime-local" ng-model="todo.date"
+                                               value="{{todo.date}}" placeholder="date" min="{{minDate}}"
+                                               class="form-control form-group" ng-required="true">
 
 
-                                <input type="text" ng-model="todo.title" value="{{todo.title}}"
-                                       placeholder="{{Title}}" class="form-control form-group" ng-required="true" id="title">
-                                <button class="btn btn-success btn-block" type="submit">Save</button>
-                            </form>
+                                        <input type="text" ng-model="todo.title" value="{{todo.title}}"
+                                               placeholder="{{Title}}" class="form-control form-group"
+                                               ng-required="true"
+                                               id="title">
+                                        <button class="btn btn-success btn-block" type="submit">Save</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
-        <script>
-            jQuery(document).ready(function () {
-                $(".editForm").on('focus',function (e) {
-                    $(this).closest('#title').attr("draggable",false);
-                })
-            });
-
-            jQuery(document).ready(function(){
-                $("button").click(function(){
-                    $("p").hide();
+            <script>
+                jQuery(document).ready(function () {
+                    $(".editForm").on('focus', function (e) {
+                        $(this).closest('#title').attr("draggable", false);
+                    })
                 });
-            });
 
-        </script>
-        <script src="js/app.js"></script>
-        <script src="js/service/TodoService.js"></script>
-        <script src="js/controller/CreateTodoController.js"></script>
-        <script src="bower_components/angular-ui-sortable/sortable.js"></script>
-        <!--<script src="js/controller/ShowTodo.js"></script>-->
+                jQuery(document).ready(function () {
+                    $("button").click(function () {
+                        $("p").hide();
+                    });
+                });
+
+            </script>
+            <script src="js/app.js"></script>
+            <script src="js/service/TodoService.js"></script>
+            <script src="js/controller/CreateTodoController.js"></script>
+            <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+            <!--<script src="js/controller/ShowTodo.js"></script>-->
+        </div>
     </div>
-</div>
 </body>
 </html>
